@@ -1,6 +1,7 @@
 "use strict";
 import React from "react";
 import PropTypes from "prop-types";
+import { curveStepBefore } from "d3-shape";
 
 import LineSeries from "./LineSeries";
 import AreaOnlySeries from "./AreaOnlySeries";
@@ -15,9 +16,11 @@ function AreaSeries(props) {
 				yAccessor={yAccessor}
 				stroke={stroke} fill="none"
 				strokeWidth={strokeWidth}
+				interpolation={curveStepBefore}
 				hoverHighlight={false} />
 			<AreaOnlySeries
 				yAccessor={yAccessor}
+				interpolation={curveStepBefore}
 				base={baseAt}
 				stroke="none" fill={fill}
 				opacity={opacity} />

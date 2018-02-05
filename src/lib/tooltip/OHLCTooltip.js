@@ -139,7 +139,6 @@ function defaultDisplay(props, moreProps, itemsToDisplay) {
 	/* eslint-enable */
 
 	const {
-		displayDate,
 		open,
 		high,
 		low,
@@ -148,35 +147,34 @@ function defaultDisplay(props, moreProps, itemsToDisplay) {
 		x,
 		y
 	} = itemsToDisplay;
+
+	const textProps = (y) => ({
+		x: 0,
+		y,
+		fontFamily,
+		fontSize,
+	});
+
+	const tooltipText = (key, label, value, y) => {
+		return (
+			<ToolTipText {...textProps(y)}>
+				<ToolTipTSpanLabel fill={labelFill} key={`label_${key}`}>{label}</ToolTipTSpanLabel>
+				<tspan key={`value_${key}`} fill={textFill}>{value}</tspan>
+			</ToolTipText>
+		);
+	};
+
 	return (
 		<g
 			className={`react-stockcharts-tooltip-hover ${className}`}
 			transform={`translate(${x}, ${y})`}
 			onClick={onClick}
 		>
-			<ToolTipText
-				x={0}
-				y={0}
-				fontFamily={fontFamily}
-				fontSize={fontSize}
-			>
-				<ToolTipTSpanLabel
-					fill={labelFill}
-					key="label"
-					x={0}
-					dy="5">{displayTexts.d}</ToolTipTSpanLabel>
-				<tspan key="value" fill={textFill}>{displayDate}</tspan>
-				<ToolTipTSpanLabel fill={labelFill} key="label_O">{displayTexts.o}</ToolTipTSpanLabel>
-				<tspan key="value_O" fill={textFill}>{open}</tspan>
-				<ToolTipTSpanLabel fill={labelFill} key="label_H">{displayTexts.h}</ToolTipTSpanLabel>
-				<tspan key="value_H" fill={textFill}>{high}</tspan>
-				<ToolTipTSpanLabel fill={labelFill} key="label_L">{displayTexts.l}</ToolTipTSpanLabel>
-				<tspan key="value_L" fill={textFill}>{low}</tspan>
-				<ToolTipTSpanLabel fill={labelFill} key="label_C">{displayTexts.c}</ToolTipTSpanLabel>
-				<tspan key="value_C" fill={textFill}>{close}</tspan>
-				<ToolTipTSpanLabel fill={labelFill} key="label_Vol">{displayTexts.v}</ToolTipTSpanLabel>
-				<tspan key="value_Vol" fill={textFill}>{volume}</tspan>
-			</ToolTipText>
+			{tooltipText("O", displayTexts.o, open, 0)}
+			{tooltipText("H", displayTexts.h, high, 15)}
+			{tooltipText("L", displayTexts.l, low, 30)}
+			{tooltipText("C", displayTexts.c, close, 45)}
+			{tooltipText("Vol", displayTexts.v, volume, 60)}
 		</g>
 	);
 }
